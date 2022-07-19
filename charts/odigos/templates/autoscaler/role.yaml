@@ -17,9 +17,9 @@ rules:
     - update
     - watch
 - apiGroups:
-    - ""
+    - apps
   resources:
-    - pods
+    - daemonsets
   verbs:
     - create
     - delete
