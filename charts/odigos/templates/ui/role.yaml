@@ -19,7 +19,7 @@ rules:
 - apiGroups:
     - odigos.io
   resources:
-    - collectors
+    - collectorsgroups
   verbs:
     - create
     - delete
@@ -31,13 +31,13 @@ rules:
 - apiGroups:
     - odigos.io
   resources:
-    - collectors/finalizers
+    - collectorsgroups/finalizers
   verbs:
     - update
 - apiGroups:
     - odigos.io
   resources:
-    - collectors/status
+    - collectorsgroups/status
   verbs:
     - get
     - patch

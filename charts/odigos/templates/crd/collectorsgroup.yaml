@@ -4,20 +4,20 @@ metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.8.0
   creationTimestamp: null
-  name: odigosconfigurations.odigos.io
+  name: collectorsgroups.odigos.io
 spec:
   group: odigos.io
   names:
-    kind: OdigosConfiguration
-    listKind: OdigosConfigurationList
-    plural: odigosconfigurations
-    singular: odigosconfiguration
+    kind: CollectorsGroup
+    listKind: CollectorsGroupList
+    plural: collectorsgroups
+    singular: collectorsgroup
   scope: Namespaced
   versions:
     - name: v1alpha1
       schema:
         openAPIV3Schema:
-          description: OdigosConfiguration is the Schema for the odigos configuration
+          description: CollectorsGroup is the Schema for the collectors API
           properties:
             apiVersion:
               description: 'APIVersion defines the versioned schema of this representation
@@ -32,19 +32,29 @@ spec:
             metadata:
               type: object
             spec:
-              description: OdigosConfigurationSpec defines the desired state of OdigosConfiguration
+              description: CollectorsGroupSpec defines the desired state of Collector
               properties:
-                instrumentationMode:
+                inputSvc:
+                  type: string
+                role:
                   enum:
-                    - OPT_IN
-                    - OPT_OUT
+                    - GATEWAY
+                    - DATA_COLLECTION
                   type: string
               required:
-                - instrumentationMode
+                - role
+              type: object
+            status:
+              description: CollectorsGroupStatus defines the observed state of Collector
+              properties:
+                ready:
+                  type: boolean
               type: object
           type: object
       served: true
       storage: true
+      subresources:
+        status: {}
 status:
   acceptedNames:
     kind: ""
