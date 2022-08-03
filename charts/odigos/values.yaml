@@ -1,26 +1,26 @@
 autoscaler:
   image:
     repository: ghcr.io/keyval-dev/odigos/autoscaler
-    tag: v0.0.7
+    tag: v0.0.8
 
 scheduler:
   image:
     repository: ghcr.io/keyval-dev/odigos/scheduler
-    tag: v0.0.7
+    tag: v0.0.8
 
 langDetector:
   image:
     repository: ghcr.io/keyval-dev/odigos/lang-detector
-    tag: v0.0.7
+    tag: v0.0.8
 
 ui:
   image:
     repository: ghcr.io/keyval-dev/odigos/ui
-    tag: v0.0.7
+    tag: v0.0.8
 
 instrumentor:
   deleteLangDetectionPods: true
   image:
     repository: ghcr.io/keyval-dev/odigos/instrumentor
-    tag: v0.0.7
+    tag: v0.0.8
 
