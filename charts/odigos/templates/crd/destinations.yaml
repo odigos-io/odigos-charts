@@ -59,7 +59,6 @@ spec:
                   type: string
               required:
                 - data
-                - secretRef
                 - signals
                 - type
               type: object
