@@ -3,6 +3,16 @@ entries:
   odigos:
   - apiVersion: v2
     appVersion: 1.16.0
+    created: "2022-09-29T08:32:39.435314781Z"
+    description: A Helm chart for Kubernetes
+    digest: 2b10dc50ccb1c84681fb149a736c78bd311a8fef51d28f5101712309c98dfa3c
+    name: odigos
+    type: application
+    urls:
+    - https://github.com/keyval-dev/odigos-charts/releases/download/odigos-0.1.97/odigos-0.1.97.tgz
+    version: 0.1.97
+  - apiVersion: v2
+    appVersion: 1.16.0
     created: "2022-08-23T05:41:45.364287149Z"
     description: A Helm chart for Kubernetes
     digest: fdb767c610ddea99969e3c54752afc993da80ee7b2a8ffba671577a9ea023d5f
@@ -131,4 +141,4 @@ entries:
     urls:
     - https://github.com/keyval-dev/odigos-charts/releases/download/odigos-0.0.1/odigos-0.0.1.tgz
     version: 0.0.1
-generated: "2022-08-23T05:41:45.364467054Z"
+generated: "2022-09-29T08:32:39.435546678Z"
