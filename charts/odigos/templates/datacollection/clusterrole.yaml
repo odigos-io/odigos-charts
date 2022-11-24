@@ -3,9 +3,13 @@ kind: ClusterRole
 metadata:
   name: odigos-data-collection
 rules:
-- apiGroups:
-  - ""
-  resources:
-  - nodes/stats
-  verbs:
-  - get
+  - apiGroups:
+      - ""
+    resources:
+      - pods
+      - nodes/stats
+      - nodes/proxy
+    verbs:
+      - list
+      - watch
+      - get
