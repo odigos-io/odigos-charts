@@ -20,6 +20,13 @@ ui:
 
 instrumentor:
   deleteLangDetectionPods: true
+   # Ignored namespaces won't show up in odigos-ui
+  ignoredNamespaces:
+    - odigos-system
+    - kube-system
+    - local-path-storage
+    - istio-system
+    - linkerd
   image:
     repository: ghcr.io/keyval-dev/odigos/instrumentor
     tag: v0.1.38
