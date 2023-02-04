@@ -37,6 +37,9 @@ spec:
           - --leader-elect
           - --lang-detector-tag={{ .Values.langDetector.image.tag }}
           - --lang-detector-image={{ .Values.langDetector.image.repository }}
+{{- range .Values.instrumentor.ignoredNamespaces }}
+          - --ignore-namespace={{ . }}
+{{- end }}
 {{- if not .Values.instrumentor.deleteLangDetectionPods }}
           - --delete-detection-pods=false
 {{- end }}
