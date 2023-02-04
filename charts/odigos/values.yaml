@@ -28,3 +28,6 @@ odiglet:
   image:
     repository: ghcr.io/keyval-dev/odigos/odiglet
     tag: v0.1.38
+
+telemetry:
+  enabled: true

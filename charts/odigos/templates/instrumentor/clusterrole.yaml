@@ -7,6 +7,14 @@ rules:
   - apiGroups:
       - ""
     resources:
+      - nodes
+    verbs:
+      - list
+      - watch
+      - get
+  - apiGroups:
+      - ""
+    resources:
       - pods
     verbs:
       - create
@@ -140,3 +148,29 @@ rules:
       - patch
       - update
       - watch
+  - apiGroups:
+      - odigos.io
+    resources:
+      - destinations
+    verbs:
+      - create
+      - delete
+      - get
+      - list
+      - patch
+      - update
+      - watch
+  - apiGroups:
+      - odigos.io
+    resources:
+      - destinations/finalizers
+    verbs:
+      - update
+  - apiGroups:
+      - odigos.io
+    resources:
+      - destinations/status
+    verbs:
+      - get
+      - patch
+      - update

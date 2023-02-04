@@ -40,6 +40,9 @@ spec:
 {{- if not .Values.instrumentor.deleteLangDetectionPods }}
           - --delete-detection-pods=false
 {{- end }}
+{{- if not .Values.telemetry.enabled }}
+          - --telemetry-disabled
+{{- end }}
         command:
           - /app
         image: "{{ .Values.instrumentor.image.repository }}:{{ .Values.instrumentor.image.tag }}"
