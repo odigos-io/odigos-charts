@@ -63,3 +63,5 @@ spec:
         runAsNonRoot: true
       serviceAccountName: odigos-autoscaler
       terminationGracePeriodSeconds: 10
+      nodeSelector:
+        kubernetes.io/os: linux

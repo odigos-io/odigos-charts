@@ -30,3 +30,5 @@ spec:
           ports:
             - name: ui
               containerPort: 3000
+      nodeSelector:
+        kubernetes.io/os: linux
