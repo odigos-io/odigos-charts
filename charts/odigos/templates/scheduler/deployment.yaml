@@ -63,3 +63,5 @@ spec:
         runAsNonRoot: true
       serviceAccountName: odigos-scheduler
       terminationGracePeriodSeconds: 10
+      nodeSelector:
+        kubernetes.io/os: linux

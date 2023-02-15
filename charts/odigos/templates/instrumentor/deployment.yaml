@@ -74,3 +74,5 @@ spec:
         runAsNonRoot: true
       serviceAccountName: odigos-instrumentor
       terminationGracePeriodSeconds: 10
+      nodeSelector:
+        kubernetes.io/os: linux
