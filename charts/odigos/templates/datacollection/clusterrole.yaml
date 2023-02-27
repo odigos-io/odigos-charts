@@ -13,3 +13,11 @@ rules:
       - list
       - watch
       - get
+  - apiGroups:
+      - apps
+    resources:
+      - replicasets
+    verbs:
+      - list
+      - watch
+      - get

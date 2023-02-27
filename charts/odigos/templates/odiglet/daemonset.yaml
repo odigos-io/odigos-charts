@@ -25,6 +25,10 @@ spec:
       hostNetwork: true
       hostPID: true
       dnsPolicy: ClusterFirstWithHostNet
+{{- if .Values.imagePullSecrets }}
+      imagePullSecrets:
+{{ toYaml .Values.imagePullSecrets | indent 6 }}
+{{- end }}
       containers:
         - name: odiglet
           image: "{{ .Values.odiglet.image.repository }}:{{ .Values.odiglet.image.tag }}"
@@ -34,6 +38,10 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: spec.nodeName
+            - name: NODE_IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.hostIP
           securityContext:
             privileged: true
           volumeMounts:
@@ -43,6 +51,9 @@ spec:
             - name: var-dir
               mountPath: /var
               mountPropagation: Bidirectional
+            - name: odigos
+              mountPath: /odigos
+              mountPropagation: Bidirectional
       volumes:
         - name: run-dir
           hostPath:
@@ -50,3 +61,6 @@ spec:
         - name: var-dir
           hostPath:
             path: /var
+        - name: odigos
+          hostPath:
+            path: /odigos
