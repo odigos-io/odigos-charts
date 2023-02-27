@@ -19,6 +19,10 @@ spec:
       labels:
         app: odigos-instrumentor
     spec:
+{{- if .Values.imagePullSecrets }}
+      imagePullSecrets:
+{{ toYaml .Values.imagePullSecrets | indent 6 }}
+{{- end }}
       containers:
       - args:
           - --secure-listen-address=0.0.0.0:8443
