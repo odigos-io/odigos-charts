@@ -39,6 +39,12 @@ spec:
           - --health-probe-bind-address=:8081
           - --metrics-bind-address=127.0.0.1:8080
           - --leader-elect
+{{- if .Values.imagePullSecrets }}{{ $imagePullSecretsValues := .Values.imagePullSecrets }}{{ $imagePullSecrets := list }}
+{{- range $imagePullSecretsValues }}
+{{- $imagePullSecrets = append $imagePullSecrets (printf "%s" .name) }}
+{{- end }}
+          - --image-pull-secrets={{ join "," $imagePullSecrets }}
+{{- end }}
         command:
           - /app
         image: "{{ .Values.autoscaler.image.repository }}:{{ .Values.autoscaler.image.tag }}"
