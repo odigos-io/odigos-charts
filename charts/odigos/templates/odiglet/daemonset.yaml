@@ -52,7 +52,7 @@ spec:
               mountPath: /var
               mountPropagation: Bidirectional
             - name: odigos
-              mountPath: /odigos
+              mountPath: /var/odigos
               mountPropagation: Bidirectional
       volumes:
         - name: run-dir
@@ -63,4 +63,4 @@ spec:
             path: /var
         - name: odigos
           hostPath:
-            path: /odigos
+            path: /var/odigos
