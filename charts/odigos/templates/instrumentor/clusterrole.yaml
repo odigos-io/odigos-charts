@@ -15,56 +15,51 @@ rules:
   - apiGroups:
       - ""
     resources:
-      - pods
+      - namespaces
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - apps
+    resources:
+      - daemonsets
     verbs:
       - create
-      - delete
       - get
       - list
       - patch
       - update
       - watch
   - apiGroups:
-      - ""
+      - apps
     resources:
-      - pods/status
+      - daemonsets/status
     verbs:
       - get
-      - patch
-      - update
   - apiGroups:
       - apps
     resources:
       - deployments
     verbs:
       - create
-      - delete
       - get
       - list
       - patch
       - update
       - watch
-  - apiGroups:
-      - apps
-    resources:
-      - deployments/finalizers
-    verbs:
-      - update
   - apiGroups:
       - apps
     resources:
       - deployments/status
     verbs:
       - get
-      - patch
-      - update
   - apiGroups:
       - apps
     resources:
       - statefulsets
     verbs:
       - create
-      - delete
       - get
       - list
       - patch
@@ -73,17 +68,9 @@ rules:
   - apiGroups:
       - apps
     resources:
-      - statefulsets/finalizers
-    verbs:
-      - update
-  - apiGroups:
-      - apps
-    resources:
       - statefulsets/status
     verbs:
       - get
-      - patch
-      - update
   - apiGroups:
       - odigos.io
     resources:
