@@ -8,11 +8,6 @@ scheduler:
     repository: ghcr.io/keyval-dev/odigos/scheduler
     tag: v0.1.51
 
-langDetector:
-  image:
-    repository: ghcr.io/keyval-dev/odigos/lang-detector
-    tag: v0.1.51
-
 ui:
   image:
     repository: ghcr.io/keyval-dev/odigos/ui
