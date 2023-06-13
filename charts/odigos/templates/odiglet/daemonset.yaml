@@ -44,6 +44,9 @@ spec:
                   fieldPath: status.hostIP
           securityContext:
             privileged: true
+            capabilities:
+              add:
+                - SYS_PTRACE
           volumeMounts:
             - name: run-dir
               mountPath: /run
@@ -54,6 +57,8 @@ spec:
             - name: odigos
               mountPath: /var/odigos
               mountPropagation: Bidirectional
+            - name: kernel-debug
+              mountPath: /sys/kernel/debug
       volumes:
         - name: run-dir
           hostPath:
@@ -64,3 +69,6 @@ spec:
         - name: odigos
           hostPath:
             path: /var/odigos
+        - name: kernel-debug
+          hostPath:
+            path: /sys/kernel/debug
