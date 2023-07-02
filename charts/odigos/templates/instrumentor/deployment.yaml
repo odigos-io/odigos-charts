@@ -45,6 +45,9 @@ spec:
 {{- if not .Values.telemetry.enabled }}
           - --telemetry-disabled
 {{- end }}
+{{- if .Values.instrumentor.sidecar }}
+          - --golang-sidecar-instrumentation
+{{- end }}
         command:
           - /app
         image: "{{ .Values.instrumentor.image.repository }}:{{ .Values.instrumentor.image.tag }}"

@@ -17,6 +17,9 @@ rules:
       - apps
     resources:
       - replicasets
+      - deployments
+      - statefulsets
+      - daemonsets
     verbs:
       - list
       - watch
