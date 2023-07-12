@@ -1,17 +1,17 @@
 autoscaler:
   image:
     repository: ghcr.io/keyval-dev/odigos/autoscaler
-    tag: v0.1.57
+    tag: v0.1.58
 
 scheduler:
   image:
     repository: ghcr.io/keyval-dev/odigos/scheduler
-    tag: v0.1.57
+    tag: v0.1.58
 
 ui:
   image:
     repository: ghcr.io/keyval-dev/odigos/ui
-    tag: v0.1.57
+    tag: v0.1.58
 
 instrumentor:
   deleteLangDetectionPods: true
@@ -24,12 +24,12 @@ instrumentor:
     - linkerd
   image:
     repository: ghcr.io/keyval-dev/odigos/instrumentor
-    tag: v0.1.57
+    tag: v0.1.58
 
 odiglet:
   image:
     repository: ghcr.io/keyval-dev/odigos/odiglet
-    tag: v0.1.57
+    tag: v0.1.58
 
 telemetry:
   enabled: true
