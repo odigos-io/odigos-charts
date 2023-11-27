@@ -1,17 +1,26 @@
+## @param nodeSelector Node labels for autoscaler, scheduler, ui, instrumentor pods assignment
+## ref: https://kubernetes.io/docs/user-guide/node-selection/
+##
+nodeSelector: {}
+
 autoscaler:
   image:
     repository: keyval/odigos-autoscaler
     tag: v0.1.63
+  nodeSelector: {}
+  
 
 scheduler:
   image:
     repository: keyval/odigos-scheduler
     tag: v0.1.63
+  nodeSelector: {}
 
 ui:
   image:
     repository: keyval/odigos-ui
     tag: v0.1.63
+  nodeSelector: {}
 
 instrumentor:
   deleteLangDetectionPods: true
@@ -25,6 +34,7 @@ instrumentor:
   image:
     repository: keyval/odigos-instrumentor
     tag: v0.1.63
+  nodeSelector: {}
 
 odiglet:
   image:

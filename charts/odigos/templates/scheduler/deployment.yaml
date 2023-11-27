@@ -69,3 +69,9 @@ spec:
       terminationGracePeriodSeconds: 10
       nodeSelector:
         kubernetes.io/os: linux
+        {{- if .Values.nodeSelector }}
+        {{.Values.nodeSelector | toYaml | nindent 8 }}
+        {{- end }}        
+        {{- if .Values.scheduler.nodeSelector }}
+        {{.Values.scheduler.nodeSelector | toYaml | nindent 8 }}
+        {{- end }}            

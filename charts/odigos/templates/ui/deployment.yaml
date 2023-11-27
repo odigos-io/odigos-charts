@@ -35,4 +35,10 @@ spec:
             - name: ui
               containerPort: 3000
       nodeSelector:
-        kubernetes.io/os: linux
+        kubernetes.io/os: linux       
+        {{- if .Values.nodeSelector }}
+        {{.Values.nodeSelector | toYaml | nindent 8 }}
+        {{- end }}        
+        {{- if .Values.ui.nodeSelector }}
+        {{.Values.ui.nodeSelector | toYaml | nindent 8 }}
+        {{- end }}                
