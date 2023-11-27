@@ -33,6 +33,6 @@ spec:
                   fieldPath: metadata.namespace
           ports:
             - name: ui
-              containerPort: 3000
+              containerPort: {{- if .Values.ui.image.port }} {{ .Values.ui.image.port }} {{- else }} 3000 {{- end }}              
       nodeSelector:
         kubernetes.io/os: linux

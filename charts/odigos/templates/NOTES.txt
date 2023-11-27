@@ -1,5 +1,11 @@
 Odigos installed successfully. For getting started go to the UI by running:
 
+{{- if .Values.ui.image.port }}  
+kubectl port-forward svc/odigos-ui {{ .Values.ui.image.port }}:{{ .Values.ui.image.port }} -n {{ .Release.Namespace }}
+
+Then, go to: http://localhost:{{ .Values.ui.image.port }}
+{{- else }} 
 kubectl port-forward svc/odigos-ui 3000:3000 -n {{ .Release.Namespace }}
 
 Then, go to: http://localhost:3000
+{{- end }}  

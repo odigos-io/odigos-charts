@@ -12,6 +12,7 @@ ui:
   image:
     repository: keyval/odigos-ui
     tag: v0.1.63
+    port: 3001
 
 instrumentor:
   deleteLangDetectionPods: true

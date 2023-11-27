@@ -5,8 +5,8 @@ metadata:
   namespace: {{ .Release.Namespace }}
 spec:
   ports:
-    - port: 3000
-      targetPort: 3000
+    - port: {{- if .Values.ui.image.port }} {{ .Values.ui.image.port }} {{- else }} 3000 {{- end }}        
+      targetPort: {{- if .Values.ui.image.port }} {{ .Values.ui.image.port }} {{- else }} 3000 {{- end }}        
       protocol: TCP
   selector:
     app: odigos-ui
