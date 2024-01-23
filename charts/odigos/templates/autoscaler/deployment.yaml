@@ -1,58 +1,44 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  annotations:
-    odigos.io/skip: "true"
   labels:
-    app: odigos-autoscaler
+    app.kubernetes.io/name: odigos-autoscaler
   name: odigos-autoscaler
   namespace: {{ .Release.Namespace }}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: odigos-autoscaler
+      app.kubernetes.io/name: odigos-autoscaler
   template:
     metadata:
       annotations:
         kubectl.kubernetes.io/default-container: manager
       labels:
-        app: odigos-autoscaler
+        app.kubernetes.io/name: odigos-autoscaler
     spec:
-{{- if .Values.imagePullSecrets }}
-      imagePullSecrets:
-{{ toYaml .Values.imagePullSecrets | indent 6 }}
-{{- end }}
       containers:
-      - args:
-          - --secure-listen-address=0.0.0.0:8443
-          - --upstream=http://127.0.0.1:8080/
-          - --logtostderr=true
-          - --v=0
-        image: gcr.io/kubebuilder/kube-rbac-proxy:v0.11.0
-        name: apis-rbac-proxy
-        ports:
-          - containerPort: 8443
-            name: https
-            protocol: TCP
       - args:
           - --health-probe-bind-address=:8081
           - --metrics-bind-address=127.0.0.1:8080
           - --leader-elect
-{{- if .Values.imagePullSecrets }}{{ $imagePullSecretsValues := .Values.imagePullSecrets }}{{ $imagePullSecrets := list }}
-{{- range $imagePullSecretsValues }}
-{{- $imagePullSecrets = append $imagePullSecrets (printf "%s" .name) }}
-{{- end }}
-          - --image-pull-secrets={{ join "," $imagePullSecrets }}
-{{- end }}
+          {{ if .Values.image.prefix }}
+          - --image-prefix={{ .Values.image.prefix }}
+          {{ end }}
         command:
           - /app
-        image: "{{ .Values.autoscaler.image.repository }}:{{ .Values.autoscaler.image.tag }}"
+        image: "{{ .Values.autoscaler.image.repository }}:{{ .Values.image.tag }}"
         env:
+          - name: OTEL_SERVICE_NAME
+            value: auto-scaler
           - name: CURRENT_NS
             valueFrom:
               fieldRef:
                 fieldPath: metadata.namespace
+        envFrom:
+          - configMapRef:
+              name: odigos-own-telemetry-otel-config
+              optional: true
         livenessProbe:
           httpGet:
             path: /healthz
@@ -75,3 +61,7 @@ spec:
       terminationGracePeriodSeconds: 10
       nodeSelector:
         kubernetes.io/os: linux
+{{- if .Values.imagePullSecrets }}
+      imagePullSecrets:
+{{ toYaml .Values.imagePullSecrets | indent 6 }}
+{{- end }}

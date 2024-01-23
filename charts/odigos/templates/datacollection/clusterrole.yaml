@@ -10,17 +10,27 @@ rules:
       - nodes/stats
       - nodes/proxy
     verbs:
+      - get
       - list
       - watch
-      - get
   - apiGroups:
       - apps
     resources:
-      - replicasets
-      - deployments
-      - statefulsets
       - daemonsets
+      - deployments
+      - replicasets
+      - statefulsets
     verbs:
       - list
       - watch
       - get
+{{ if .Values.psp.enabled }}
+  - apiGroups:
+    - policy
+    resourceNames:
+    - privileged
+    resources:
+    - podsecuritypolicies
+    verbs:
+    - use
+{{ end }}
