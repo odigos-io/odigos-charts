@@ -1,4 +1,3 @@
----
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
@@ -7,15 +6,8 @@ rules:
   - apiGroups:
       - ""
     resources:
-      - nodes
-    verbs:
-      - list
-      - watch
-      - get
-  - apiGroups:
-      - ""
-    resources:
       - namespaces
+      - nodes
     verbs:
       - get
       - list
@@ -24,39 +16,7 @@ rules:
       - apps
     resources:
       - daemonsets
-    verbs:
-      - create
-      - get
-      - list
-      - patch
-      - update
-      - watch
-  - apiGroups:
-      - apps
-    resources:
-      - daemonsets/status
-    verbs:
-      - get
-  - apiGroups:
-      - apps
-    resources:
       - deployments
-    verbs:
-      - create
-      - get
-      - list
-      - patch
-      - update
-      - watch
-  - apiGroups:
-      - apps
-    resources:
-      - deployments/status
-    verbs:
-      - get
-  - apiGroups:
-      - apps
-    resources:
       - statefulsets
     verbs:
       - create
@@ -68,6 +28,16 @@ rules:
   - apiGroups:
       - apps
     resources:
+      - daemonsets/finalizers
+      - deployments/finalizers
+      - statefulsets/finalizers
+    verbs:
+      - update
+  - apiGroups:
+      - apps
+    resources:
+      - daemonsets/status
+      - deployments/status
       - statefulsets/status
     verbs:
       - get
@@ -75,69 +45,8 @@ rules:
       - odigos.io
     resources:
       - collectorsgroups
-    verbs:
-      - create
-      - delete
-      - get
-      - list
-      - patch
-      - update
-      - watch
-  - apiGroups:
-      - odigos.io
-    resources:
-      - collectorsgroups/finalizers
-    verbs:
-      - update
-  - apiGroups:
-      - odigos.io
-    resources:
-      - collectorsgroups/status
-    verbs:
-      - get
-      - patch
-      - update
-  - apiGroups:
-      - odigos.io
-    resources:
       - instrumentedapplications
-    verbs:
-      - create
-      - delete
-      - get
-      - list
-      - patch
-      - update
-      - watch
-  - apiGroups:
-      - odigos.io
-    resources:
-      - instrumentedapplications/finalizers
-    verbs:
-      - update
-  - apiGroups:
-      - odigos.io
-    resources:
-      - instrumentedapplications/status
-    verbs:
-      - get
-      - patch
-      - update
-  - apiGroups:
-      - odigos.io
-    resources:
       - odigosconfigurations
-    verbs:
-      - create
-      - delete
-      - get
-      - list
-      - patch
-      - update
-      - watch
-  - apiGroups:
-      - odigos.io
-    resources:
       - destinations
     verbs:
       - create
@@ -150,12 +59,16 @@ rules:
   - apiGroups:
       - odigos.io
     resources:
+      - collectorsgroups/finalizers
+      - instrumentedapplications/finalizers
       - destinations/finalizers
     verbs:
       - update
   - apiGroups:
       - odigos.io
     resources:
+      - collectorsgroups/status
+      - instrumentedapplications/status
       - destinations/status
     verbs:
       - get

@@ -1,38 +1,22 @@
 apiVersion: apps/v1
 kind: DaemonSet
 metadata:
+  labels:
+    app.kubernetes.io/name: odiglet
   name: odiglet
   namespace: {{ .Release.Namespace }}
-  labels:
-    app: odiglet
 spec:
   selector:
     matchLabels:
-      app: odiglet
+      app.kubernetes.io/name: odiglet
   template:
     metadata:
       labels:
-        app: odiglet
+        app.kubernetes.io/name: odiglet
     spec:
-      nodeSelector:
-        kubernetes.io/os: linux
-      tolerations:
-        - key: node.kubernetes.io/os
-          operator: Equal
-          value: windows
-          effect: NoSchedule
-      serviceAccountName: odiglet
-      hostNetwork: true
-      hostPID: true
-      dnsPolicy: ClusterFirstWithHostNet
-{{- if .Values.imagePullSecrets }}
-      imagePullSecrets:
-{{ toYaml .Values.imagePullSecrets | indent 6 }}
-{{- end }}
       containers:
         - name: odiglet
-          image: "{{ .Values.odiglet.image.repository }}:{{ .Values.odiglet.image.tag }}"
-          imagePullPolicy: IfNotPresent
+          image: "{{ .Values.odiglet.image.repository }}:{{ .Values.image.tag }}"
           env:
             - name: NODE_NAME
               valueFrom:
@@ -42,6 +26,10 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: status.hostIP
+          envFrom:
+            - configMapRef:
+                name: odigos-own-telemetry-otel-config
+                optional: true
           securityContext:
             privileged: true
             capabilities:
@@ -59,6 +47,16 @@ spec:
               mountPropagation: Bidirectional
             - name: kernel-debug
               mountPath: /sys/kernel/debug
+      hostNetwork: true
+      hostPID: true
+      nodeSelector:
+        kubernetes.io/os: linux
+      serviceAccountName: odiglet
+      tolerations:
+        - effect: NoSchedule
+          key: node.kubernetes.io/os
+          operator: Equal
+          value: windows
       volumes:
         - name: run-dir
           hostPath:
@@ -72,3 +70,7 @@ spec:
         - name: kernel-debug
           hostPath:
             path: /sys/kernel/debug
+{{- if .Values.imagePullSecrets }}
+      imagePullSecrets:
+{{ toYaml .Values.imagePullSecrets | indent 6 }}
+{{- end }}
