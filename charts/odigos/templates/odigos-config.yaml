@@ -1,0 +1,47 @@
+apiVersion: odigos.io/v1alpha1
+kind: OdigosConfiguration
+metadata:
+  name: odigos-config
+  namespace: {{ .Release.Namespace }}
+  annotations:
+    "helm.sh/hook": post-install,post-upgrade
+spec:
+  configVersion: 1
+  autoscalerImage: {{ .Values.autoscaler.image.repository }}
+  instrumentorImage: {{ .Values.instrumentor.image.repository }}
+  odigosVersion: {{ .Values.image.tag }}
+  telemetryEnabled: {{ .Values.telemetry.enabled }}
+  ignoredNamespaces:
+    {{- toYaml .Values.instrumentor.ignoredNamespaces | nindent 8 }}
+  defaultSDKs:
+    dotnet:
+      sdkTier: community
+      sdkType: native
+    go:
+      sdkTier: community
+      sdkType: ebpf
+    java:
+      sdkTier: community
+      sdkType: native
+    javascript:
+      sdkTier: community
+      sdkType: native
+    python:
+      sdkTier: community
+      sdkType: native
+  supportedSDKs:
+    dotnet:
+      - sdkTier: community
+        sdkType: native
+    go:
+      - sdkTier: community
+        sdkType: ebpf
+    java:
+      - sdkTier: community
+        sdkType: native
+    javascript:
+      - sdkTier: community
+        sdkType: native
+    python:
+      - sdkTier: community
+        sdkType: native
