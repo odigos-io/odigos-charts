@@ -1,5 +1,6 @@
 Odigos installed successfully. For getting started go to the UI by running:
 
-kubectl port-forward svc/odigos-ui 3000:3000 -n {{ .Release.Namespace }}
+brew install keyval-dev/homebrew-odigos-cli/odigos
+odigos ui
 
 Then, go to: http://localhost:3000

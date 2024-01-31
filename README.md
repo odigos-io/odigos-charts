@@ -11,67 +11,19 @@ Add helm repository:
 helm repo add odigos https://keyval-dev.github.io/odigos-charts/
 ```
 
-Install chart:
+Install helm release:
 ```console
 helm repo update
 helm upgrade --install odigos odigos/odigos --namespace odigos-system --create-namespace
+kubectl label namespace odigos-system odigos.io/system-object="true"
 ```
 
-Create community configuration:
+Uninstall helm release:
 ```console
-#!/usr/bin/env bash
-
-cat <<EOF | kubectl create --namespace odigos-system -f -
-apiVersion: odigos.io/v1alpha1
-kind: OdigosConfiguration
-metadata:
-  name: odigos-config
-spec:
-  autoscalerImage: keyval/odigos-autoscaler
-  configVersion: 1
-  defaultSDKs:
-    dotnet:
-      sdkTier: community
-      sdkType: native
-    go:
-      sdkTier: community
-      sdkType: ebpf
-    java:
-      sdkTier: community
-      sdkType: native
-    javascript:
-      sdkTier: community
-      sdkType: native
-    python:
-      sdkTier: community
-      sdkType: native
-  ignoredNamespaces:
-    - odigos-system
-    - kube-system
-    - local-path-storage
-    - istio-system
-    - linkerd
-  instrumentorImage: keyval/odigos-instrumentor
-  odigosVersion: v1.0.22
-  supportedSDKs:
-    dotnet:
-      - sdkTier: community
-        sdkType: native
-    go:
-      - sdkTier: community
-        sdkType: ebpf
-    java:
-      - sdkTier: community
-        sdkType: native
-    javascript:
-      - sdkTier: community
-        sdkType: native
-    python:
-      - sdkTier: community
-        sdkType: native
-  telemetryEnabled: true
-EOF
+helm delete odigos -n odigos-system
+kubectl delete ns odigos-system
 ```
+
 
 ## License
 
