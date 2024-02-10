@@ -1,13 +1,21 @@
 image:
-  tag: v1.0.27
+  tag: v1.0.31
 
 autoscaler:
   image:
     repository: keyval/odigos-autoscaler
+  nodeSelector:
+    kubernetes.io/os: linux
+  tolerations: []
+  affinity: {}
 
 scheduler:
   image:
     repository: keyval/odigos-scheduler
+  nodeSelector:
+    kubernetes.io/os: linux
+  tolerations: []
+  affinity: {}
 
 instrumentor:
   deleteLangDetectionPods: true
@@ -20,10 +28,18 @@ instrumentor:
     - linkerd
   image:
     repository: keyval/odigos-instrumentor
+  nodeSelector:
+    kubernetes.io/os: linux
+  tolerations: []
+  affinity: {}
 
 odiglet:
   image:
     repository: keyval/odigos-odiglet
+  nodeSelector:
+    kubernetes.io/os: linux
+  tolerations: []
+  affinity: {}
 
 # Pod Security Policy
 psp:
