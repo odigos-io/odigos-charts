@@ -50,11 +50,6 @@ spec:
       hostNetwork: true
       hostPID: true
       serviceAccountName: odiglet
-      tolerations:
-        - effect: NoSchedule
-          key: node.kubernetes.io/os
-          operator: Equal
-          value: windows
       volumes:
         - name: run-dir
           hostPath:

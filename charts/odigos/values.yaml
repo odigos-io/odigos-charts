@@ -38,7 +38,11 @@ odiglet:
     repository: keyval/odigos-odiglet
   nodeSelector:
     kubernetes.io/os: linux
-  tolerations: []
+  tolerations:
+    - effect: NoSchedule
+      key: node.kubernetes.io/os
+      operator: Equal
+      value: windows
   affinity: {}
 
 # Pod Security Policy
