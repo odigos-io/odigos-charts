@@ -11,19 +11,27 @@ Add helm repository:
 helm repo add odigos https://keyval-dev.github.io/odigos-charts/
 ```
 
-Install helm release:
+### Install Odigos
+
 ```console
 helm repo update
 helm upgrade --install odigos odigos/odigos --namespace odigos-system --create-namespace
 kubectl label namespace odigos-system odigos.io/system-object="true"
 ```
 
-Uninstall helm release:
+### Upgrade Existing Odigos Installation
+
+```console
+helm repo update
+helm upgrade odigos odigos/odigos --namespace odigos-system
+```
+
+### Uninstall Odigos
+
 ```console
 helm delete odigos -n odigos-system
 kubectl delete ns odigos-system
 ```
-
 
 ## License
 
