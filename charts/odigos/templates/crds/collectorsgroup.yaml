@@ -31,8 +31,8 @@ spec:
                 type: string
               role:
                 enum:
-                - GATEWAY
-                - DATA_COLLECTION
+                - CLUSTER_GATEWAY
+                - NODE_COLLECTOR
                 type: string
             required:
             - role
