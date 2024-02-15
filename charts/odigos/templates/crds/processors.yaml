@@ -90,7 +90,6 @@ spec:
                 type: string
             required:
             - collectorRoles
-            - orderHint
             - processorConfig
             - signals
             - type
