@@ -69,3 +69,19 @@ rules:
       - get
       - patch
       - update
+  - apiGroups:
+      - actions.odigos.io
+    resources:
+      - insertclusterattributes
+    verbs:
+      - watch
+      - get
+      - list
+  - apiGroups:
+      - actions.odigos.io
+    resources:
+      - insertclusterattributes/status
+    verbs:
+      - get
+      - patch
+      - update
