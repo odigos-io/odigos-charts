@@ -72,7 +72,7 @@ rules:
   - apiGroups:
       - actions.odigos.io
     resources:
-      - insertclusterattributes
+      - addclusterinfos
     verbs:
       - watch
       - get
@@ -80,7 +80,7 @@ rules:
   - apiGroups:
       - actions.odigos.io
     resources:
-      - insertclusterattributes/status
+      - addclusterinfos/status
     verbs:
       - get
       - patch
