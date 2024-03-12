@@ -73,6 +73,7 @@ rules:
       - actions.odigos.io
     resources:
       - addclusterinfos
+      - deleteattributes
     verbs:
       - watch
       - get
@@ -81,6 +82,7 @@ rules:
       - actions.odigos.io
     resources:
       - addclusterinfos/status
+      - deleteattributes/status
     verbs:
       - get
       - patch
