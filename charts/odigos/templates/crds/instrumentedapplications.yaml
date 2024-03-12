@@ -47,6 +47,7 @@ spec:
                       - go
                       - dotnet
                       - javascript
+                      - mysql
                       type: string
                     processName:
                       type: string
