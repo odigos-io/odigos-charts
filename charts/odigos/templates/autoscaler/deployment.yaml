@@ -27,7 +27,7 @@ spec:
           {{ end }}
         command:
           - /app
-        image: "{{ .Values.autoscaler.image.repository }}:{{ .Values.image.tag }}"
+        image: "{{ .Values.autoscaler.image.repository }}:{{ .Chart.AppVersion }}"
         env:
           - name: OTEL_SERVICE_NAME
             value: auto-scaler

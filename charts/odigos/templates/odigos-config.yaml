@@ -9,7 +9,7 @@ spec:
   configVersion: 1
   autoscalerImage: {{ .Values.autoscaler.image.repository }}
   instrumentorImage: {{ .Values.instrumentor.image.repository }}
-  odigosVersion: {{ .Values.image.tag }}
+  odigosVersion: {{ .Chart.AppVersion }}
   telemetryEnabled: {{ .Values.telemetry.enabled }}
   ignoredNamespaces:
     {{- toYaml .Values.instrumentor.ignoredNamespaces | nindent 8 }}

@@ -24,7 +24,7 @@ spec:
           - --leader-elect
         command:
           - /app
-        image: "{{ .Values.scheduler.image.repository }}:{{ .Values.image.tag }}"
+        image: "{{ .Values.scheduler.image.repository }}:{{ .Chart.AppVersion }}"
         env:
           - name: OTEL_SERVICE_NAME
             value: scheduler

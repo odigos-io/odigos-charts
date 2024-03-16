@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: odiglet
-          image: "{{ .Values.odiglet.image.repository }}:{{ .Values.image.tag }}"
+          image: "{{ .Values.odiglet.image.repository }}:{{ .Chart.AppVersion }}"
           env:
             - name: NODE_NAME
               valueFrom:

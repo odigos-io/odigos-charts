@@ -24,7 +24,7 @@ spec:
           - --leader-elect
         command:
           - /app
-        image: "{{ .Values.instrumentor.image.repository }}:{{ .Values.image.tag }}"
+        image: "{{ .Values.instrumentor.image.repository }}:{{ .Chart.AppVersion }}"
         env:
           - name: OTEL_SERVICE_NAME
             value: instrumentor

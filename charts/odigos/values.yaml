@@ -1,6 +1,7 @@
-image:
-  tag: v1.0.47
 imagePullSecrets: []
+
+image:
+  prefix: null
 
 autoscaler:
   image:
