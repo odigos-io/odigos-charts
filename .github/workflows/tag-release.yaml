@@ -1,0 +1,52 @@
+name: Tag Release
+
+on:
+  pull_request:
+    types: [closed]
+
+jobs:
+  release-job:
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.merged == true && contains(github.event.pull_request.labels.*.name, 'release-bot')
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        token: ${{ secrets.RELEASE_BOT_TOKEN }}
+
+    - name: Extract Version from PR Comment
+      id: extract-version
+      run: |
+        PR_COMMENT="${{ github.event.pull_request.body }}"
+        VERSION=$(echo "$PR_COMMENT" | grep -oP 'Version:\K.*')
+        echo "Extracted version: $VERSION"
+        echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+    - name: Configure Git
+      run: |
+        git config --global user.email "bot@keyval.dev"
+        git config --global user.name "Odigos Release Bot"
+
+    - name: Tag Current Commit
+      env:
+        GH_TOKEN: ${{ secrets.RELEASE_BOT_TOKEN }}
+      run: |
+          VERSION=${{ steps.extract-version.outputs.version }}
+          git tag $VERSION
+          git push --tags
+
+    - name: Notify Slack
+      env:
+        SLACK_WEBHOOK_URL: ${{ secrets.ODIGOS_RELEASE_STATUS_WEBHOOK_URL }}
+      run: |
+        curl -X POST -H 'Content-type: application/json' --data '{"description":"Tagged odigos chart.", "tag":"${{ steps.extract-version.outputs.version }}"}' ${{ env.SLACK_WEBHOOK_URL }}
+
+    - name: Notify Slack on Failure
+      if: failure()
+      env:
+        SLACK_WEBHOOK_URL: ${{ secrets.ODIGOS_RELEASE_STATUS_WEBHOOK_URL }}
+        GITHUB_REPOSITORY: ${{ github.repository }}
+        GITHUB_RUN_ID: ${{ github.run_id }}
+      run: |
+        curl -X POST -H 'Content-type: application/json' --data '{"link":"https://github.com/${{ env.GITHUB_REPOSITORY }}/actions/runs/${{ env.GITHUB_RUN_ID }}", "description":"ERROR: odigos chart not able to tag release", "tag":"${{ steps.extract-version.outputs.version }}"}' ${{ env.SLACK_WEBHOOK_URL }}
+
