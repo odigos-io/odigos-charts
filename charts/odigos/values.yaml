@@ -1,7 +1,7 @@
 imagePullSecrets: []
 
-# image:
-#   prefix: null
+image:
+  prefix: null
 
 autoscaler:
   image:
