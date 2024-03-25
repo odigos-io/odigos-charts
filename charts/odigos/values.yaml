@@ -1,5 +1,5 @@
 image:
-  tag: v1.0.47
+  tag: v1.0.49
 imagePullSecrets: []
 
 autoscaler:

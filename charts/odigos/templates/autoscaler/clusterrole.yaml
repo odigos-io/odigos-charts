@@ -29,3 +29,69 @@ rules:
       - get
       - patch
       - update
+  - apiGroups:
+      - odigos.io
+    resources:
+      - collectorsgroups
+      - destinations
+      - processors
+    verbs:
+      - create
+      - delete
+      - get
+      - list
+      - patch
+      - update
+      - watch
+  - apiGroups:
+      - odigos.io
+    resources:
+      - collectorsgroups/finalizers
+      - destinations/finalizers
+    verbs:
+      - update
+  - apiGroups:
+      - odigos.io
+    resources:
+      - collectorsgroups/status
+      - destinations/status
+    verbs:
+      - get
+      - patch
+      - update
+  - apiGroups:
+      - actions.odigos.io
+    resources:
+      - addclusterinfos
+      - deleteattributes
+    verbs:
+      - watch
+      - get
+      - list
+  - apiGroups:
+      - actions.odigos.io
+    resources:
+      - addclusterinfos/status
+      - deleteattributes/status
+    verbs:
+      - get
+      - patch
+      - update
+  - apiGroups:
+      - ""
+    resources:
+      - configmaps
+      - services
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - apps
+    resources:
+      - daemonsets
+      - deployments
+    verbs:
+      - get
+      - list
+      - watch
