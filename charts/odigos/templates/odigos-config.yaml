@@ -8,6 +8,21 @@ metadata:
 spec:
   configVersion: 1
   autoscalerImage: {{ .Values.autoscaler.image.repository }}
+  {{- if .Values.collectorGateway }}
+  collectorGateway:
+    {{- with .Values.collectorGateway.requestMemoryMiB }}
+    requestMemoryMiB: {{ . }}
+    {{- end }}
+    {{- with .Values.collectorGateway.memoryLimiterLimitMiB }}
+    memoryLimiterLimitMiB: {{ . }}
+    {{- end }}
+    {{- with .Values.collectorGateway.memoryLimiterSpikeLimitMiB }}
+    memoryLimiterSpikeLimitMiB: {{ . }}
+    {{- end }}
+    {{- with .Values.collectorGateway.goMemLimitMiB }}
+    goMemLimitMiB: {{ . }}
+    {{- end }}
+  {{- end }}  
   instrumentorImage: {{ .Values.instrumentor.image.repository }}
   odigosVersion: {{ .Values.image.tag }}
   telemetryEnabled: {{ .Values.telemetry.enabled }}
@@ -45,3 +60,4 @@ spec:
     python:
       - sdkTier: community
         sdkType: native
+  
