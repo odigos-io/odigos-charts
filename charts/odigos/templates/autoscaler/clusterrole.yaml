@@ -64,6 +64,7 @@ rules:
     resources:
       - addclusterinfos
       - deleteattributes
+      - renameattributes
     verbs:
       - watch
       - get
@@ -73,6 +74,7 @@ rules:
     resources:
       - addclusterinfos/status
       - deleteattributes/status
+      - renameattributes/status
     verbs:
       - get
       - patch
