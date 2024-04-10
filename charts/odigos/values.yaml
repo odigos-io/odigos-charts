@@ -1,5 +1,5 @@
 image:
-  tag: v1.0.50
+  tag: v1.0.53
 imagePullSecrets: []
 
 collectorGateway:
