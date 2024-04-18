@@ -35,6 +35,14 @@ rules:
   - apiGroups:
       - apps
     resources:
+      - daemonsets/finalizers
+      - deployments/finalizers
+      - statefulsets/finalizers
+    verbs:
+      - update
+  - apiGroups:
+      - apps
+    resources:
       - daemonsets/status
       - deployments/status
       - statefulsets/status

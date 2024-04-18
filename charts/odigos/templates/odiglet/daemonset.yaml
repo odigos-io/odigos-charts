@@ -63,6 +63,14 @@ spec:
             - name: run-dir
               mountPath: /run
               mountPropagation: Bidirectional
+            {{ if .Values.openshift.enabled }}
+            - name: host
+              mountPath: /host
+              readOnly: true
+            - name: selinux
+              mountPath: /host/etc/selinux
+              mountPropagation: Bidirectional
+            {{ end }}
             - name: var-dir
               mountPath: /var
               mountPropagation: Bidirectional
@@ -78,6 +86,14 @@ spec:
         - name: run-dir
           hostPath:
             path: /run
+        {{ if .Values.openshift.enabled }}
+        - name: host
+          hostPath:
+            path: /
+        - name: selinux
+          hostPath:
+            path: /etc/selinux
+        {{- end }}
         - name: var-dir
           hostPath:
             path: /var

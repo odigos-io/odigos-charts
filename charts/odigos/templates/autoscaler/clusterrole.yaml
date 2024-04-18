@@ -4,35 +4,29 @@ metadata:
   name: odigos-autoscaler
 rules:
   - apiGroups:
-      - odigos.io
+      - ""
     resources:
-      - instrumentedapplications
+      - configmaps
+      - services
     verbs:
-      - create
-      - delete
       - get
       - list
-      - patch
-      - update
+      - watch
+  - apiGroups:
+      - apps
+    resources:
+      - daemonsets
+      - deployments
+    verbs:
+      - get
+      - list
       - watch
   - apiGroups:
       - odigos.io
     resources:
-      - instrumentedapplications/finalizers
-    verbs:
-      - update
-  - apiGroups:
-      - odigos.io
-    resources:
-      - instrumentedapplications/status
-    verbs:
-      - get
-      - patch
-      - update
-  - apiGroups:
-      - odigos.io
-    resources:
+      - instrumentedapplications
       - collectorsgroups
+      - odigosconfigurations
       - destinations
       - processors
     verbs:
@@ -47,6 +41,7 @@ rules:
       - odigos.io
     resources:
       - collectorsgroups/finalizers
+      - instrumentedapplications/finalizers
       - destinations/finalizers
     verbs:
       - update
@@ -54,6 +49,7 @@ rules:
       - odigos.io
     resources:
       - collectorsgroups/status
+      - instrumentedapplications/status
       - destinations/status
     verbs:
       - get
