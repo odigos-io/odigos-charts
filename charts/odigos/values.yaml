@@ -55,6 +55,7 @@ instrumentor:
 odiglet:
   image:
     repository: keyval/odigos-odiglet
+    enterpriseRepository: keyval/odigos-enterprise-odiglet
   nodeSelector:
     kubernetes.io/os: linux
   tolerations:

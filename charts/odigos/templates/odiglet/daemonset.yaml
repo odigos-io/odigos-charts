@@ -22,9 +22,17 @@ spec:
       containers:
         - name: odiglet
           {{- if .Values.imagePrefix }}
+          {{- if .Values.onPremToken }}
+          image: "{{ .Values.imagePrefix }}/{{ .Values.odiglet.image.enterpriseRepository }}:{{ .Values.image.tag }}"
+          {{- else }}
           image: "{{ .Values.imagePrefix }}/{{ .Values.odiglet.image.repository }}:{{ .Values.image.tag }}"
+          {{- end }}
+          {{- else }}
+          {{- if .Values.onPremToken }}
+          image: "{{ .Values.odiglet.image.enterpriseRepository }}:{{ .Values.image.tag }}"
           {{- else }}
           image: "{{ .Values.odiglet.image.repository }}:{{ .Values.image.tag }}"
+          {{- end }}
           {{- end }}
           env:
             - name: NODE_NAME
@@ -35,6 +43,13 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: status.hostIP
+            {{- if .Values.onPremToken }}
+            - name: ODIGOS_ONPREM_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: odigos-pro
+                  key: odigos-onprem-token
+            {{- end }}
           envFrom:
             - configMapRef:
                 name: odigos-own-telemetry-otel-config
