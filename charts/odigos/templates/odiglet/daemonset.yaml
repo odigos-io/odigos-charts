@@ -21,7 +21,11 @@ spec:
     spec:
       containers:
         - name: odiglet
+          {{- if .Values.imagePrefix }}
+          image: "{{ .Values.imagePrefix }}/{{ .Values.odiglet.image.repository }}:{{ .Values.image.tag }}"
+          {{- else }}
           image: "{{ .Values.odiglet.image.repository }}:{{ .Values.image.tag }}"
+          {{- end }}
           env:
             - name: NODE_NAME
               valueFrom:

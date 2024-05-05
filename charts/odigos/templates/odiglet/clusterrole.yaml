@@ -61,3 +61,13 @@ rules:
       - patch
       - update
       - watch
+{{ if .Values.psp.enabled }}
+  - apiGroups:
+    - policy
+    resourceNames:
+    - privileged
+    resources:
+    - podsecuritypolicies
+    verbs:
+    - use
+{{ end }}
