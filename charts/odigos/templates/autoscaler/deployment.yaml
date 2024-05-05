@@ -27,7 +27,11 @@ spec:
           {{ end }}
         command:
           - /app
+        {{- if .Values.imagePrefix }}
+        image: "{{ .Values.imagePrefix }}/{{ .Values.autoscaler.image.repository }}:{{ .Values.image.tag }}"
+        {{- else }}
         image: "{{ .Values.autoscaler.image.repository }}:{{ .Values.image.tag }}"
+        {{- end }}
         env:
           - name: OTEL_SERVICE_NAME
             value: auto-scaler

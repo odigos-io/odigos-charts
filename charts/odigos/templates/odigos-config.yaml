@@ -8,6 +8,9 @@ metadata:
 spec:
   configVersion: 1
   autoscalerImage: {{ .Values.autoscaler.image.repository }}
+  {{- if .Values.imagePrefix }}
+  imagePrefix: {{ .Values.imagePrefix }}
+  {{- end }}
   {{- if .Values.collectorGateway }}
   collectorGateway:
     {{- with .Values.collectorGateway.requestMemoryMiB }}
@@ -26,6 +29,7 @@ spec:
   instrumentorImage: {{ .Values.instrumentor.image.repository }}
   odigosVersion: {{ .Values.image.tag }}
   telemetryEnabled: {{ .Values.telemetry.enabled }}
+  psp: {{ .Values.psp.enabled }}
   ignoredNamespaces:
     {{- toYaml .Values.instrumentor.ignoredNamespaces | nindent 8 }}
   defaultSDKs:

@@ -1,6 +1,6 @@
 # Odigos Helm Chart
 
-[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0) [![Release Charts](https://github.com/keyval-dev/odigos-charts/actions/workflows/release.yml/badge.svg?branch=master)](https://github.com/keyval-dev/odigos-charts/actions/workflows/release.yml)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0) [![Release Charts](https://github.com/odigos-io/odigos-charts/actions/workflows/release.yml/badge.svg?branch=master)](https://github.com/odigos-io/odigos-charts/actions/workflows/release.yml)
 
 This repository contains the helm chart for Odigos - the observability control plane.
 
@@ -8,7 +8,7 @@ This repository contains the helm chart for Odigos - the observability control p
 
 Add helm repository:
 ```console
-helm repo add odigos https://keyval-dev.github.io/odigos-charts/
+helm repo add odigos https://odigos-io.github.io/odigos-charts/
 ```
 
 ### Install Odigos
