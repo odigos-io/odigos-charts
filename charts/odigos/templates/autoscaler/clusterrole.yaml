@@ -97,3 +97,11 @@ rules:
       - get
       - list
       - watch
+  - apiGroups:
+      - odigos.io
+    resources:
+      - odigosconfigurations
+    verbs:
+      - get
+      - list
+      - watch
