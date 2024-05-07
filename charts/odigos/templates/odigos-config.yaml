@@ -31,7 +31,7 @@ spec:
   telemetryEnabled: {{ .Values.telemetry.enabled }}
   psp: {{ .Values.psp.enabled }}
   ignoredNamespaces:
-    {{- toYaml .Values.instrumentor.ignoredNamespaces | nindent 8 }}
+    {{- toYaml .Values.ignoredNamespaces | nindent 8 }}
   {{- if .Values.onPremToken }}
   defaultSDKs:
     dotnet:
