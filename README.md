@@ -4,6 +4,13 @@
 
 This repository contains the helm chart for Odigos - the observability control plane.
 
+**Notice:** The Helm repository URL for Odigos has changed on May 6 2024. Please update your records to use the new URL: https://odigos-io.github.io/odigos-charts/:
+
+```
+helm repo add odigos https://odigos-io.github.io/odigos-charts/ --force-update
+```
+
+
 ## Usage
 
 Add helm repository:
