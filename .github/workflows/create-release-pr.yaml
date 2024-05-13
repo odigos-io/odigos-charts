@@ -1,0 +1,109 @@
+name: Create Release PR
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Version to release"
+        required: true
+
+  repository_dispatch:
+    types: [create_release_pr]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  create_release_pr:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Determine Tag Value
+        id: set-tag
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "TAG=${{ github.event.inputs.tag }}" >> $GITHUB_ENV
+          elif [ "${{ github.event_name }}" = "repository_dispatch" ]; then
+            echo "TAG=${{ github.event.client_payload.tag }}" >> $GITHUB_ENV
+          else
+            echo "Unknown event type"
+            exit 1
+          fi
+
+      - name: Notify Slack
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.ODIGOS_RELEASE_STATUS_WEBHOOK_URL }}
+        run: |
+          curl -X POST -H 'Content-type: application/json' --data '{"description":"Creating release PR for helm chart", "tag":"${{ env.TAG }}"}' ${{ env.SLACK_WEBHOOK_URL }}  
+      - uses: actions/checkout@v4
+
+      - name: Update Chart Versions
+        working-directory: ./charts/odigos
+        run: |
+          sed -i "s|appVersion: \".*\"|appVersion: \"${TAG}\"|g" Chart.yaml
+          sed -i "s|tag: \".*\"|tag: \"${{ env.TAG }}\"|g" values.yaml
+      - name: github preperation
+        id: github_preperation
+        run: |
+          # Set global Git configurations
+          git config --global user.email "bot@keyval.dev"
+          git config --global user.name "Odigos Release Bot"
+          BRANCH_PREFIX="release-bot-"
+          echo "branch_prefix=${BRANCH_PREFIX}-" >> $GITHUB_OUTPUT
+          echo "branch_name=${BRANCH_PREFIX}${{ env.TAG }}" >> $GITHUB_OUTPUT
+      - name: delete existing branch
+        env:
+          GH_TOKEN: ${{ secrets.RELEASE_BOT_TOKEN }}
+        run: |
+          # Check if a pull request already exists for the branch and close it if it does
+          EXISTING_PR=$(gh pr list --head ${{ steps.github_preperation.outputs.branch_name }} --base main --state open --json number --jq '.[0].number')
+          if [ ! -z "$EXISTING_PR" ]; then
+              gh pr close $EXISTING_PR --delete-branch
+          fi
+          BRANCH_EXISTS=$(git ls-remote --heads origin ${{ steps.github_preperation.outputs.branch_name }})
+          if [ ! -z "$BRANCH_EXISTS" ]; then
+              git push origin --delete ${{ steps.github_preperation.outputs.branch_name }}
+          fi
+      - name: create release pr
+        env:
+          GH_TOKEN: ${{ secrets.RELEASE_BOT_TOKEN }}
+        run: |
+          git checkout -b ${{ steps.github_preperation.outputs.branch_name }}
+          git add .
+          git commit -m "bump odigos dependencise to use ${{ env.TAG }}"
+          git push origin ${{ steps.github_preperation.outputs.branch_name }}
+          PR_LINK=$(gh pr create \
+            --title "chore: automatic release ${{ env.TAG }}" \
+            --body "follow up PR for odigos release to upgrade helm chart.
+            Version:${{ env.TAG }}" \
+            --base main \
+            --head ${{ steps.github_preperation.outputs.branch_name }})
+          echo "PR_LINK=$PR_LINK" >> $GITHUB_ENV
+          # Extract PR number from PR_LINK
+          PR_NUMBER=$(echo "$PR_LINK" | awk -F '/' '{print $NF}')
+          echo "PR_NUMBER=$PR_NUMBER" >> $GITHUB_ENV
+      - name: Add bot label to PR
+        env:
+          GH_TOKEN: ${{ secrets.RELEASE_BOT_TOKEN }}
+        run: |
+          curl -X POST -H "Authorization: token $GH_TOKEN" -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/${{ github.repository }}/issues/$PR_NUMBER/labels -d '{"labels": ["release-bot"]}'
+      # we want to save as many clicks as possible, so we mark the PR as auto mergeable.
+      # Thus, when the PR is approved and build succeeds, it will be merged automatically.
+      - name: Enable Auto Merge on PR
+        env:
+          GH_TOKEN: ${{ secrets.RELEASE_BOT_TOKEN }}
+        run: |
+          gh pr merge ${{ env.PR_LINK }} --auto --squash
+      - name: Notify Slack
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.ODIGOS_RELEASE_STATUS_WEBHOOK_URL }}
+        run: |
+          curl -X POST -H 'Content-type: application/json' --data '{"link":"${{ env.PR_LINK }}/files", "description":"Odigos chart PR created. Approve to continue:", "tag":"${{ env.TAG }}"}' ${{ env.SLACK_WEBHOOK_URL }}
+      - name: Notify Slack on Failure
+        if: failure()
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.ODIGOS_RELEASE_STATUS_WEBHOOK_URL }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          GITHUB_RUN_ID: ${{ github.run_id }}
+        run: |
+          curl -X POST -H 'Content-type: application/json' --data '{"link":"https://github.com/${{ env.GITHUB_REPOSITORY }}/actions/runs/${{ env.GITHUB_RUN_ID }}", "description":"ERROR: odigos chart PR not created", "tag":"${{ env.TAG }}"}' ${{ env.SLACK_WEBHOOK_URL }}
