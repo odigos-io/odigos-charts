@@ -61,6 +61,14 @@ rules:
       - patch
       - update
       - watch
+  - apiGroups:
+      - odigos.io
+    resources:
+      - odigosconfigurations
+    verbs:
+      - get
+      - list
+      - watch
 {{ if .Values.psp.enabled }}
   - apiGroups:
     - policy

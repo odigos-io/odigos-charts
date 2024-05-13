@@ -32,6 +32,8 @@ spec:
   psp: {{ .Values.psp.enabled }}
   ignoredNamespaces:
     {{- toYaml .Values.ignoredNamespaces | nindent 8 }}
+  ignoredContainers:
+    {{- toYaml .Values.ignoredContainers | nindent 8 }}
   {{- if .Values.onPremToken }}
   defaultSDKs:
     dotnet:

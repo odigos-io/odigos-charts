@@ -1,5 +1,5 @@
 image:
-  tag: v1.0.59
+  tag: v1.0.60
 imagePullSecrets: []
 
 # namespaces not to show in odigos ui
@@ -10,6 +10,9 @@ ignoredNamespaces:
   - istio-system
   - linkerd
   - kube-node-lease
+
+ignoredContainers:
+  - istio-proxy
 
 collectorGateway:
   # the memory request for the cluster gateway collector deployment.
