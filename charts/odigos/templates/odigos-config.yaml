@@ -32,10 +32,9 @@ spec:
   psp: {{ .Values.psp.enabled }}
   ignoredNamespaces:
     {{- toYaml .Values.ignoredNamespaces | nindent 8 }}
-  {{- if .Values.onPremToken }}
   ignoredContainers:
     {{- toYaml .Values.ignoredContainers | nindent 8 }}
-  {{- end }}
+  {{- if .Values.onPremToken }}
   defaultSDKs:
     dotnet:
       sdkTier: community
