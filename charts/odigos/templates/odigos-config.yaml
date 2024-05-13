@@ -33,6 +33,9 @@ spec:
   ignoredNamespaces:
     {{- toYaml .Values.ignoredNamespaces | nindent 8 }}
   {{- if .Values.onPremToken }}
+  ignoredContainers:
+    {{- toYaml .Values.ignoredContainers | nindent 8 }}
+  {{- end }}
   defaultSDKs:
     dotnet:
       sdkTier: community
