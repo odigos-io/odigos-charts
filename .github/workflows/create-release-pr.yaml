@@ -37,11 +37,24 @@ jobs:
           curl -X POST -H 'Content-type: application/json' --data '{"description":"Creating release PR for helm chart", "tag":"${{ env.TAG }}"}' ${{ env.SLACK_WEBHOOK_URL }}  
       - uses: actions/checkout@v4
 
-      - name: Update Chart Versions
+      - name: Bump Chart Version and Update Tags
         working-directory: ./charts/odigos
         run: |
-          sed -i "s|appVersion: \".*\"|appVersion: \"${TAG}\"|g" Chart.yaml
+          # Extract current version and increment patch version
+          CURRENT_VERSION=$(grep 'version:' Chart.yaml | awk '{print $2}')
+          IFS='.' read -ra VER <<< "$CURRENT_VERSION"
+          PATCH=$((VER[2]+1))
+          NEW_VERSION="${VER[0]}.${VER[1]}.$PATCH"
+
+          # Update version in Chart.yaml
+          sed -i "s|version: $CURRENT_VERSION|version: $NEW_VERSION|g" Chart.yaml
+
+          # Update appVersion in Chart.yaml
+          sed -i "s|appVersion: \".*\"|appVersion: \"${{ env.TAG }}\"|g" Chart.yaml
+
+          # Update image tag in values.yaml
           sed -i "s|tag: \".*\"|tag: \"${{ env.TAG }}\"|g" values.yaml
+          
       - name: github preperation
         id: github_preperation
         run: |
