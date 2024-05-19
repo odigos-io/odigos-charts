@@ -1,6 +1,6 @@
 # Odigos Helm Chart
 
-[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0) [![Release Charts](https://github.com/odigos-io/odigos-charts/actions/workflows/release.yml/badge.svg?branch=master)](https://github.com/odigos-io/odigos-charts/actions/workflows/release.yml)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0) [![Release Charts](https://github.com/odigos-io/odigos-charts/actions/workflows/release.yml/badge.svg?branch=main)](https://github.com/odigos-io/odigos-charts/actions/workflows/release.yml)
 
 This repository contains the helm chart for Odigos - the observability control plane.
 
