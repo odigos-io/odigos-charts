@@ -29,6 +29,7 @@ spec:
   instrumentorImage: {{ .Values.instrumentor.image.repository }}
   odigosVersion: {{ .Values.image.tag }}
   telemetryEnabled: {{ .Values.telemetry.enabled }}
+  openshiftEnabled: {{ .Values.openshift.enabled }}
   psp: {{ .Values.psp.enabled }}
   ignoredNamespaces:
     {{- toYaml .Values.ignoredNamespaces | nindent 8 }}

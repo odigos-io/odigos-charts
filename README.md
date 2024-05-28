@@ -26,11 +26,12 @@ helm upgrade --install odigos odigos/odigos --namespace odigos-system --create-n
 kubectl label namespace odigos-system odigos.io/system-object="true"
 ```
 
-### Upgrade Existing Odigos Installation
+### Install Odigos in Openshift
 
 ```console
 helm repo update
-helm upgrade odigos odigos/odigos --namespace odigos-system
+helm upgrade --install odigos odigos/odigos --namespace odigos-system --create-namespace --set openshift.enabled=true
+kubectl label namespace odigos-system odigos.io/system-object="true"
 ```
 
 ### Uninstall Odigos
