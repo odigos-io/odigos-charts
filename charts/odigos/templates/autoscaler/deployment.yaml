@@ -22,8 +22,8 @@ spec:
           - --health-probe-bind-address=:8081
           - --metrics-bind-address=127.0.0.1:8080
           - --leader-elect
-          {{ if .Values.image.prefix }}
-          - --image-prefix={{ .Values.image.prefix }}
+          {{ if .Values.imagePrefix }}
+          - --image-prefix={{ .Values.imagePrefix }}
           {{ end }}
         command:
           - /app
