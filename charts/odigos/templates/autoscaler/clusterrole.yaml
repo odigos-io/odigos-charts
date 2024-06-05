@@ -61,6 +61,7 @@ rules:
       - addclusterinfos
       - deleteattributes
       - renameattributes
+      - probabilisticsamplers
     verbs:
       - watch
       - get
@@ -71,6 +72,7 @@ rules:
       - addclusterinfos/status
       - deleteattributes/status
       - renameattributes/status
+      - probabilisticsamplers/status
     verbs:
       - get
       - patch
