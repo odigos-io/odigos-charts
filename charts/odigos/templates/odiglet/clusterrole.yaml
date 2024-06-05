@@ -85,6 +85,25 @@ rules:
       - get
       - patch
       - update
+  - apiGroups:
+      - odigos.io
+    resources:
+     - instrumentationinstances
+    verbs:
+      - create
+      - get
+      - list
+      - patch
+      - update
+      - watch
+  - apiGroups:
+      - odigos.io
+    resources:
+      - instrumentationinstances/status
+    verbs:
+      - get
+      - patch
+      - update
 {{ if .Values.psp.enabled }}
   - apiGroups:
     - policy
