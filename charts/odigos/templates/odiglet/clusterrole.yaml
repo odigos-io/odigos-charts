@@ -73,6 +73,7 @@ rules:
       - odigos.io
     resources:
       - odigosconfigurations
+      - destinations
     verbs:
       - get
       - list
