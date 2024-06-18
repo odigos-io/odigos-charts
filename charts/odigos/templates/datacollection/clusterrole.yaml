@@ -7,6 +7,7 @@ rules:
       - ""
     resources:
       - pods
+      - endpoints
       - nodes/stats
       - nodes/proxy
     verbs:
