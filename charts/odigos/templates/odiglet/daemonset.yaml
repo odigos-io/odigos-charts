@@ -43,6 +43,10 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: status.hostIP
+            - name: CURRENT_NS
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
             {{- if .Values.onPremToken }}
             - name: ODIGOS_ONPREM_TOKEN
               valueFrom:
