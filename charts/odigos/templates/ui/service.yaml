@@ -10,4 +10,4 @@ spec:
     - name: ui
       port: 3000
   selector:
-    app.kubernetes.io/name: odigos-ui
+    app: odigos-ui
