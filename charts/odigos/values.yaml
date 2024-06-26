@@ -49,6 +49,14 @@ scheduler:
   tolerations: []
   affinity: {}
 
+ui:
+  image:
+    repository: keyval/odigos-ui
+  nodeSelector:
+    kubernetes.io/os: linux
+  tolerations: []
+  affinity: {}
+
 instrumentor:
   deleteLangDetectionPods: true
   image:
