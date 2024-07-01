@@ -97,6 +97,7 @@ rules:
       - patch
       - update
       - watch
+      - delete
   - apiGroups:
       - odigos.io
     resources:
