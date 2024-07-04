@@ -62,6 +62,8 @@ rules:
       - deleteattributes
       - renameattributes
       - probabilisticsamplers
+      - latencysamplers
+      - errorsamplers
     verbs:
       - watch
       - get
@@ -73,6 +75,8 @@ rules:
       - deleteattributes/status
       - renameattributes/status
       - probabilisticsamplers/status
+      - latencysamplers/status
+      - errorsamplers/status
     verbs:
       - get
       - patch
