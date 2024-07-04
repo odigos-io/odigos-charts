@@ -88,3 +88,6 @@ telemetry:
 
 openshift:
   enabled: false
+
+gke:
+  enabled: false
