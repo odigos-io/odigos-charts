@@ -63,6 +63,7 @@ rules:
       - renameattributes
       - probabilisticsamplers
       - latencysamplers
+      - errorsamplers
     verbs:
       - watch
       - get
@@ -75,6 +76,7 @@ rules:
       - renameattributes/status
       - probabilisticsamplers/status
       - latencysamplers/status
+      - errorsamplers/status
     verbs:
       - get
       - patch
