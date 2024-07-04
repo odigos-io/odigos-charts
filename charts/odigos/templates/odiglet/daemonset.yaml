@@ -85,6 +85,7 @@ spec:
               mountPath: /sys/kernel/debug
       hostNetwork: true
       hostPID: true
+      priorityClassName: system-node-critical
       serviceAccountName: odiglet
       volumes:
         - name: run-dir
