@@ -1,5 +1,5 @@
 image:
-  tag: "v1.0.69"
+  tag: "v1.0.75"
 imagePullSecrets: []
 
 # namespaces not to show in odigos ui
@@ -44,6 +44,14 @@ autoscaler:
 scheduler:
   image:
     repository: keyval/odigos-scheduler
+  nodeSelector:
+    kubernetes.io/os: linux
+  tolerations: []
+  affinity: {}
+
+ui:
+  image:
+    repository: keyval/odigos-ui
   nodeSelector:
     kubernetes.io/os: linux
   tolerations: []
