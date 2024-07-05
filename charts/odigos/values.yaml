@@ -79,6 +79,10 @@ odiglet:
       value: windows
   affinity: {}
 
+cli:
+  image:
+    repository: keyval/odigos-cli
+
 # Pod Security Policy
 psp:
   enabled: false
