@@ -15,9 +15,9 @@ spec:
       containers:
       - name: cleanup
         {{- if .Values.imagePrefix }}
-        image: "{{ .Values.imagePrefix }}/keyval/odigos-cli:latest"
+        image: "{{ .Values.imagePrefix }}/{{ .Values.cli.image.repository }}:{{ .Values.image.tag }}"
         {{- else }}
-        image: keyval/odigos-cli:latest
+        image: "{{ .Values.cli.image.repository }}:{{ .Values.image.tag }}"
         {{- end }}
         args: ["uninstall", "--yes"]
       restartPolicy: Never
