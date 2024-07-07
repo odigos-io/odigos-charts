@@ -47,6 +47,8 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.namespace
+            - name: OTEL_LOG_LEVEL
+              value: info
             {{- if .Values.onPremToken }}
             - name: ODIGOS_ONPREM_TOKEN
               valueFrom:
