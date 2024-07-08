@@ -64,6 +64,7 @@ rules:
       - probabilisticsamplers
       - latencysamplers
       - errorsamplers
+      - piimaskings
     verbs:
       - watch
       - get
@@ -77,6 +78,7 @@ rules:
       - probabilisticsamplers/status
       - latencysamplers/status
       - errorsamplers/status
+      - piimaskings/status
     verbs:
       - get
       - patch
