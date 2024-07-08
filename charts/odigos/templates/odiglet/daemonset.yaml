@@ -47,6 +47,8 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.namespace
+            - name: OTEL_LOG_LEVEL
+              value: info
             {{- if .Values.onPremToken }}
             - name: ODIGOS_ONPREM_TOKEN
               valueFrom:
@@ -85,6 +87,7 @@ spec:
               mountPath: /sys/kernel/debug
       hostNetwork: true
       hostPID: true
+      priorityClassName: system-node-critical
       serviceAccountName: odiglet
       volumes:
         - name: run-dir

@@ -1,5 +1,5 @@
 image:
-  tag: "v1.0.75"
+  tag: "v1.0.77"
 imagePullSecrets: []
 
 # namespaces not to show in odigos ui
@@ -79,6 +79,10 @@ odiglet:
       value: windows
   affinity: {}
 
+cli:
+  image:
+    repository: keyval/odigos-cli
+
 # Pod Security Policy
 psp:
   enabled: false
@@ -87,4 +91,7 @@ telemetry:
   enabled: true
 
 openshift:
+  enabled: false
+
+gke:
   enabled: false
