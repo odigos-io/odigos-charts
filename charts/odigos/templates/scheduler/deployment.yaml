@@ -9,7 +9,7 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: odigos-scheduler
+      app.kubernetes.io/name: odigos-scheduler
   template:
     metadata:
       annotations:
