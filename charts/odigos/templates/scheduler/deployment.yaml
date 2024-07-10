@@ -15,7 +15,7 @@ spec:
       annotations:
         kubectl.kubernetes.io/default-container: manager
       labels:
-        app: odigos-scheduler
+        app.kubernetes.io/name: odigos-scheduler
     spec:
       containers:
       - args:
