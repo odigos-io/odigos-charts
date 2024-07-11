@@ -1,5 +1,5 @@
 image:
-  tag: "v1.0.80"
+  tag: "v1.0.81"
 imagePullSecrets: []
 
 # namespaces not to show in odigos ui
