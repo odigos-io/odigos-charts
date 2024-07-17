@@ -53,11 +53,20 @@ rules:
     resources:
       - collectorsgroups
       - destinations
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - odigos.io
+    resources:
       - instrumentationconfigs
     verbs:
       - get
       - list
       - watch
+      - patch
+      - update
   - apiGroups:
       - odigos.io
     resources:

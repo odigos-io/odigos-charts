@@ -74,3 +74,15 @@ rules:
       - get
       - patch
       - update
+  - apiGroups:
+    - odigos.io
+    resources:
+    - instrumentationconfigs
+    verbs:
+    - create
+    - delete
+    - get
+    - list
+    - patch
+    - update
+    - watch
