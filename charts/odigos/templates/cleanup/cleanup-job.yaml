@@ -12,6 +12,7 @@ spec:
   backoffLimit: 0
   template:
     spec:
+      serviceAccountName: cleanup-sa
       containers:
       - name: cleanup
         {{- if .Values.imagePrefix }}
