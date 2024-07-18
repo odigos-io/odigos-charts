@@ -4,8 +4,8 @@ metadata:
   name: cleanup-clusterrolebinding
 subjects:
 - kind: ServiceAccount
-  name: default
-  namespace: odigos-system
+  name: cleanup-sa
+  namespace: {{ .Release.Namespace }}
 roleRef:
   kind: ClusterRole
   name: cleanup-clusterrole
