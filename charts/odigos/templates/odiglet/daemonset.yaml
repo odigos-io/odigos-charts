@@ -19,6 +19,29 @@ spec:
       labels:
         app.kubernetes.io/name: odiglet
     spec:
+      initContainers:
+        - name: init
+          {{- if .Values.imagePrefix }}
+          {{- if .Values.onPremToken }}
+          image: "{{ .Values.imagePrefix }}/{{ .Values.odiglet.image.enterpriseRepository }}:{{ .Values.image.tag }}"
+          {{- else }}
+          image: "{{ .Values.imagePrefix }}/{{ .Values.odiglet.image.repository }}:{{ .Values.image.tag }}"
+          {{- end }}
+          {{- else }}
+          {{- if .Values.onPremToken }}
+          image: "{{ .Values.odiglet.image.enterpriseRepository }}:{{ .Values.image.tag }}"
+          {{- else }}
+          image: "{{ .Values.odiglet.image.repository }}:{{ .Values.image.tag }}"
+          {{- end }}
+          {{- end }}
+          imagePullPolicy: IfNotPresent
+          command:
+            - /root/odiglet
+          args:
+            - init
+          volumeMounts:
+            - name: odigos
+              mountPath: /var/odigos
       containers:
         - name: odiglet
           {{- if .Values.imagePrefix }}
@@ -60,6 +83,7 @@ spec:
             - configMapRef:
                 name: odigos-own-telemetry-otel-config
                 optional: true
+          imagePullPolicy: IfNotPresent
           securityContext:
             privileged: true
             capabilities:
@@ -68,7 +92,6 @@ spec:
           volumeMounts:
             - name: run-dir
               mountPath: /run
-              mountPropagation: Bidirectional
             {{ if .Values.openshift.enabled }}
             - name: host
               mountPath: /host
@@ -77,12 +100,14 @@ spec:
               mountPath: /host/etc/selinux
               mountPropagation: Bidirectional
             {{ end }}
-            - name: var-dir
-              mountPath: /var
-              mountPropagation: Bidirectional
+            - name: device-plugins-dir
+              mountPath: /var/lib/kubelet/device-plugins
+            - name: pod-resources
+              mountPath: /var/lib/kubelet/pod-resources
+              readOnly: true
             - name: odigos
               mountPath: /var/odigos
-              mountPropagation: Bidirectional
+              readOnly: true
             - name: kernel-debug
               mountPath: /sys/kernel/debug
       hostNetwork: true
@@ -101,9 +126,12 @@ spec:
           hostPath:
             path: /etc/selinux
         {{- end }}
-        - name: var-dir
+        - name: pod-resources
           hostPath:
-            path: /var
+            path: /var/lib/kubelet/pod-resources
+        - name: device-plugins-dir
+          hostPath:
+            path: /var/lib/kubelet/device-plugins
         - name: odigos
           hostPath:
             path: /var/odigos
