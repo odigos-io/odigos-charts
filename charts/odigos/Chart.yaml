@@ -2,6 +2,6 @@ apiVersion: v2
 name: odigos
 description: Odigos Helm Chart for Kubernetes
 type: application
-version: 0.3.37
-appVersion: "v1.0.83"
+version: 0.3.38
+appVersion: "v1.0.84"
 icon: https://d2q89wckrml3k4.cloudfront.net/logo.png
