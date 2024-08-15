@@ -32,3 +32,11 @@ rules:
       - get
       - patch
       - update
+  - apiGroups:
+      - odigos.io
+    resources:
+      - instrumentedapplications
+    verbs:
+      - get
+      - list
+      - watch
