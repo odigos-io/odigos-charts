@@ -3,23 +3,24 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.14.0
-  name: latencysamplers.actions.odigos.io
+    controller-gen.kubebuilder.io/version: v0.16.1
+  labels:
+    odigos.io/config: "1"
+    odigos.io/system-object: "true"
+  name: instrumentedapplications.odigos.io
 spec:
-  group: actions.odigos.io
+  group: odigos.io
   names:
-    kind: LatencySampler
-    listKind: LatencySamplerList
-    plural: latencysamplers
-    shortNames:
-    - ls
-    singular: latencysampler
+    kind: InstrumentedApplication
+    listKind: InstrumentedApplicationList
+    plural: instrumentedapplications
+    singular: instrumentedapplication
   scope: Namespaced
   versions:
   - name: v1alpha1
     schema:
       openAPIV3Schema:
-        description: LatencySampler is the Schema for the LatencySampler odigos action
+        description: InstrumentedApplication is the Schema for the instrumentedapplications
           API
         properties:
           apiVersion:
@@ -40,74 +41,96 @@ spec:
           metadata:
             type: object
           spec:
-            description: LatencySamplerSpec defines the desired state of LatencySampler
-              action
+            description: InstrumentedApplicationSpec defines the desired state of
+              InstrumentedApplication
             properties:
-              actionName:
-                type: string
-              disabled:
-                type: boolean
-              endpoints_filters:
-                description: Specifies the list of endpoint filters to be applied
-                  for sampling
+              options:
                 items:
                   properties:
-                    fallback_sampling_ratio:
-                      description: Specifies the fallback sampling ratio to be applied
-                        in case service and endpoint filter match but the latency
-                        threshold is not met.
-                      type: number
-                    http_route:
-                      description: Specifies the http.route to be sampled
+                    containerName:
                       type: string
-                    minimum_latency_threshold:
-                      description: Specifies the lower latency threshold in milliseconds;
-                        traces with latency equal to or exceeding this value will
-                        be considered for sampling.
-                      type: integer
-                    service_name:
-                      description: Specifies the service to be sampled
-                      type: string
+                    instrumentationsLibraries:
+                      items:
+                        properties:
+                          libraryName:
+                            type: string
+                          options:
+                            items:
+                              properties:
+                                optionKey:
+                                  type: string
+                                spanKind:
+                                  description: |-
+                                    SpanKind is already defined in opentelemetry-go as int.
+                                    this value can go into the CRD in which case it will be string for user convenience.
+                                  enum:
+                                  - client
+                                  - server
+                                  - producer
+                                  - consumer
+                                  - internal
+                                  type: string
+                              required:
+                              - optionKey
+                              - spanKind
+                              type: object
+                            type: array
+                        required:
+                        - libraryName
+                        - options
+                        type: object
+                      type: array
                   required:
-                  - fallback_sampling_ratio
-                  - http_route
-                  - minimum_latency_threshold
-                  - service_name
+                  - containerName
+                  - instrumentationsLibraries
                   type: object
                 type: array
-              notes:
-                type: string
-              signals:
+              runtimeDetails:
                 items:
-                  enum:
-                  - LOGS
-                  - TRACES
-                  - METRICS
-                  type: string
+                  properties:
+                    containerName:
+                      type: string
+                    envVars:
+                      items:
+                        properties:
+                          name:
+                            type: string
+                          value:
+                            type: string
+                        required:
+                        - name
+                        - value
+                        type: object
+                      type: array
+                    language:
+                      enum:
+                      - java
+                      - python
+                      - go
+                      - dotnet
+                      - javascript
+                      - mysql
+                      - unknown
+                      - ignored
+                      type: string
+                    runtimeVersion:
+                      type: string
+                  required:
+                  - containerName
+                  - language
+                  type: object
                 type: array
-            required:
-            - endpoints_filters
-            - signals
             type: object
           status:
-            description: LatencySamplerStatus defines the observed state of LatencySampler
-              action
+            description: InstrumentedApplicationStatus defines the observed state
+              of InstrumentedApplication
             properties:
               conditions:
-                description: |-
-                  Represents the observations of a LatencySampler's current state.
-                  Known .status.conditions.type are: "Available", "Progressing"
+                description: Represents the observations of a nstrumentedApplication's
+                  current state.
                 items:
-                  description: "Condition contains details for one aspect of the current
-                    state of this API Resource.\n---\nThis struct is intended for
-                    direct use as an array at the field path .status.conditions.  For
-                    example,\n\n\n\ttype FooStatus struct{\n\t    // Represents the
-                    observations of a foo's current state.\n\t    // Known .status.conditions.type
-                    are: \"Available\", \"Progressing\", and \"Degraded\"\n\t    //
-                    +patchMergeKey=type\n\t    // +patchStrategy=merge\n\t    // +listType=map\n\t
-                    \   // +listMapKey=type\n\t    Conditions []metav1.Condition `json:\"conditions,omitempty\"
-                    patchStrategy:\"merge\" patchMergeKey:\"type\" protobuf:\"bytes,1,rep,name=conditions\"`\n\n\n\t
-                    \   // other fields\n\t}"
+                  description: Condition contains details for one aspect of the current
+                    state of this API Resource.
                   properties:
                     lastTransitionTime:
                       description: |-
@@ -148,12 +171,7 @@ spec:
                       - Unknown
                       type: string
                     type:
-                      description: |-
-                        type of condition in CamelCase or in foo.example.com/CamelCase.
-                        ---
-                        Many .condition.type values are consistent across resources like Available, but because arbitrary conditions can be
-                        useful (see .node.status.conditions), the ability to deconflict is important.
-                        The regex it matches is (dns1123SubdomainFmt/)?(qualifiedNameFmt)
+                      description: type of condition in CamelCase or in foo.example.com/CamelCase.
                       maxLength: 316
                       pattern: ^([a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*/)?(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])$
                       type: string
@@ -165,9 +183,6 @@ spec:
                   - type
                   type: object
                 type: array
-                x-kubernetes-list-map-keys:
-                - type
-                x-kubernetes-list-type: map
             type: object
         type: object
     served: true

@@ -3,24 +3,24 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.14.0
-  name: errorsamplers.actions.odigos.io
+    controller-gen.kubebuilder.io/version: v0.16.1
+  labels:
+    odigos.io/config: "1"
+    odigos.io/system-object: "true"
+  name: destinations.odigos.io
 spec:
-  group: actions.odigos.io
+  group: odigos.io
   names:
-    kind: ErrorSampler
-    listKind: ErrorSamplerList
-    plural: errorsamplers
-    shortNames:
-    - es
-    singular: errorsampler
+    kind: Destination
+    listKind: DestinationList
+    plural: destinations
+    singular: destination
   scope: Namespaced
   versions:
   - name: v1alpha1
     schema:
       openAPIV3Schema:
-        description: ErrorSampler is the Schema for the ErrorSampler odigos action
-          API
+        description: Destination is the Schema for the destinations API
         properties:
           apiVersion:
             description: |-
@@ -40,18 +40,30 @@ spec:
           metadata:
             type: object
           spec:
-            description: ErrorSamplerSpec defines the desired state of ErrorSampler
-              action
+            description: DestinationSpec defines the desired state of Destination
             properties:
-              actionName:
+              data:
+                additionalProperties:
+                  type: string
+                type: object
+              destinationName:
                 type: string
-              disabled:
-                type: boolean
-              fallback_sampling_ratio:
-                description: Specifies the ratio of non-error traces to be sampled.
-                type: number
-              notes:
-                type: string
+              secretRef:
+                description: |-
+                  LocalObjectReference contains enough information to let you locate the
+                  referenced object inside the same namespace.
+                properties:
+                  name:
+                    default: ""
+                    description: |-
+                      Name of the referent.
+                      This field is effectively required, but due to backwards compatibility is
+                      allowed to be empty. Instances of this type with an empty value here are
+                      almost certainly wrong.
+                      More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                    type: string
+                type: object
+                x-kubernetes-map-type: atomic
               signals:
                 items:
                   enum:
@@ -60,29 +72,23 @@ spec:
                   - METRICS
                   type: string
                 type: array
+              type:
+                type: string
             required:
-            - fallback_sampling_ratio
+            - data
+            - destinationName
             - signals
+            - type
             type: object
           status:
-            description: ErrorSamplerStatus defines the observed state of ErrorSampler
-              action
+            description: DestinationStatus defines the observed state of Destination
             properties:
               conditions:
-                description: |-
-                  Represents the observations of a ErrorSampler's current state.
-                  Known .status.conditions.type are: "Available", "Progressing"
+                description: Represents the observations of a destination's current
+                  state.
                 items:
-                  description: "Condition contains details for one aspect of the current
-                    state of this API Resource.\n---\nThis struct is intended for
-                    direct use as an array at the field path .status.conditions.  For
-                    example,\n\n\n\ttype FooStatus struct{\n\t    // Represents the
-                    observations of a foo's current state.\n\t    // Known .status.conditions.type
-                    are: \"Available\", \"Progressing\", and \"Degraded\"\n\t    //
-                    +patchMergeKey=type\n\t    // +patchStrategy=merge\n\t    // +listType=map\n\t
-                    \   // +listMapKey=type\n\t    Conditions []metav1.Condition `json:\"conditions,omitempty\"
-                    patchStrategy:\"merge\" patchMergeKey:\"type\" protobuf:\"bytes,1,rep,name=conditions\"`\n\n\n\t
-                    \   // other fields\n\t}"
+                  description: Condition contains details for one aspect of the current
+                    state of this API Resource.
                   properties:
                     lastTransitionTime:
                       description: |-
@@ -123,12 +129,7 @@ spec:
                       - Unknown
                       type: string
                     type:
-                      description: |-
-                        type of condition in CamelCase or in foo.example.com/CamelCase.
-                        ---
-                        Many .condition.type values are consistent across resources like Available, but because arbitrary conditions can be
-                        useful (see .node.status.conditions), the ability to deconflict is important.
-                        The regex it matches is (dns1123SubdomainFmt/)?(qualifiedNameFmt)
+                      description: type of condition in CamelCase or in foo.example.com/CamelCase.
                       maxLength: 316
                       pattern: ^([a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*/)?(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])$
                       type: string
@@ -140,9 +141,6 @@ spec:
                   - type
                   type: object
                 type: array
-                x-kubernetes-list-map-keys:
-                - type
-                x-kubernetes-list-type: map
             type: object
         type: object
     served: true

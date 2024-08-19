@@ -3,24 +3,26 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.14.0
-  name: probabilisticsamplers.actions.odigos.io
+    controller-gen.kubebuilder.io/version: v0.16.1
+  labels:
+    odigos.io/config: "1"
+    odigos.io/system-object: "true"
+  name: piimaskings.actions.odigos.io
 spec:
   group: actions.odigos.io
   names:
-    kind: ProbabilisticSampler
-    listKind: ProbabilisticSamplerList
-    plural: probabilisticsamplers
+    kind: PiiMasking
+    listKind: PiiMaskingList
+    plural: piimaskings
     shortNames:
-    - ps
-    singular: probabilisticsampler
+    - red
+    singular: piimasking
   scope: Namespaced
   versions:
   - name: v1alpha1
     schema:
       openAPIV3Schema:
-        description: ProbabilisticSampler is the Schema for the ProbabilisticSampler
-          odigos action API
+        description: PiiMasking is the Schema for the PiiMasking odigos action API
         properties:
           apiVersion:
             description: |-
@@ -40,8 +42,7 @@ spec:
           metadata:
             type: object
           spec:
-            description: ProbabilisticSamplerSpec defines the desired state of ProbabilisticSampler
-              action
+            description: PiiMaskingSpec defines the desired state of PiiMasking action
             properties:
               actionName:
                 type: string
@@ -49,8 +50,12 @@ spec:
                 type: boolean
               notes:
                 type: string
-              sampling_percentage:
-                type: string
+              piiCategories:
+                items:
+                  enum:
+                  - CREDIT_CARD
+                  type: string
+                type: array
               signals:
                 items:
                   enum:
@@ -60,28 +65,20 @@ spec:
                   type: string
                 type: array
             required:
-            - sampling_percentage
+            - piiCategories
             - signals
             type: object
           status:
-            description: ProbabilisticSamplerStatus defines the observed state of
-              ProbabilisticSampler action
+            description: PiiMaskingStatus defines the observed state of PiiMasking
+              action
             properties:
               conditions:
                 description: |-
-                  Represents the observations of a ProbabilisticSampler's current state.
+                  Represents the observations of a piiMasking's current state.
                   Known .status.conditions.type are: "Available", "Progressing"
                 items:
-                  description: "Condition contains details for one aspect of the current
-                    state of this API Resource.\n---\nThis struct is intended for
-                    direct use as an array at the field path .status.conditions.  For
-                    example,\n\n\n\ttype FooStatus struct{\n\t    // Represents the
-                    observations of a foo's current state.\n\t    // Known .status.conditions.type
-                    are: \"Available\", \"Progressing\", and \"Degraded\"\n\t    //
-                    +patchMergeKey=type\n\t    // +patchStrategy=merge\n\t    // +listType=map\n\t
-                    \   // +listMapKey=type\n\t    Conditions []metav1.Condition `json:\"conditions,omitempty\"
-                    patchStrategy:\"merge\" patchMergeKey:\"type\" protobuf:\"bytes,1,rep,name=conditions\"`\n\n\n\t
-                    \   // other fields\n\t}"
+                  description: Condition contains details for one aspect of the current
+                    state of this API Resource.
                   properties:
                     lastTransitionTime:
                       description: |-
@@ -122,12 +119,7 @@ spec:
                       - Unknown
                       type: string
                     type:
-                      description: |-
-                        type of condition in CamelCase or in foo.example.com/CamelCase.
-                        ---
-                        Many .condition.type values are consistent across resources like Available, but because arbitrary conditions can be
-                        useful (see .node.status.conditions), the ability to deconflict is important.
-                        The regex it matches is (dns1123SubdomainFmt/)?(qualifiedNameFmt)
+                      description: type of condition in CamelCase or in foo.example.com/CamelCase.
                       maxLength: 316
                       pattern: ^([a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*/)?(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])$
                       type: string
