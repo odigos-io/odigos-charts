@@ -1,6 +1,7 @@
 apiVersion: v2
 name: odigos
-description: Odigos Helm Chart for Kubernetes
+deprecated: true
+description: DEPRECATED Odigos Helm Chart for Kubernetes. New chart at https://odigos-io.github.io/odigos.
 type: application
 version: 0.3.45
 appVersion: "v1.0.95"
