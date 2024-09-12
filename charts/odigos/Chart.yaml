@@ -3,6 +3,6 @@ name: odigos
 deprecated: true
 description: DEPRECATED Odigos Helm Chart for Kubernetes. New chart at https://odigos-io.github.io/odigos.
 type: application
-version: 0.3.48
-appVersion: "v1.0.100"
+version: 0.3.49
+appVersion: "v1.0.101"
 icon: https://d2q89wckrml3k4.cloudfront.net/logo.png
