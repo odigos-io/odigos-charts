@@ -2,6 +2,18 @@ apiVersion: v1
 entries:
   odigos:
   - apiVersion: v2
+    appVersion: v1.0.108
+    created: "2024-09-25T08:36:39.75935977Z"
+    deprecated: true
+    description: DEPRECATED Odigos Helm Chart for Kubernetes. New chart at https://odigos-io.github.io/odigos.
+    digest: 7e3bfb840b6c22ed22bd6e2e6982940c708357ad145ed2f8c857bb93e767f9b5
+    icon: https://d2q89wckrml3k4.cloudfront.net/logo.png
+    name: odigos
+    type: application
+    urls:
+    - https://github.com/odigos-io/odigos-charts/releases/download/odigos-0.3.52/odigos-0.3.52.tgz
+    version: 0.3.52
+  - apiVersion: v2
     appVersion: v1.0.107
     created: "2024-09-18T13:28:30.552098096Z"
     deprecated: true
@@ -781,4 +793,4 @@ entries:
     urls:
     - https://github.com/keyval-dev/odigos-charts/releases/download/odigos-0.2.03/odigos-0.2.03.tgz
     version: 0.2.03
-generated: "2024-09-18T13:28:30.552394001Z"
+generated: "2024-09-25T08:36:39.759662147Z"
